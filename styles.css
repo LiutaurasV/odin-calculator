@@ -40,6 +40,7 @@ button {
     font-size: 26px;
     padding: 0 12px;
     font-family: Helvetica;
+    max-width: 312px;
 }
 
 .calculator {

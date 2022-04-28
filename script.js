@@ -20,7 +20,6 @@ let firstNum = '';
 let secondNum = '';
 let result;
 let operator;
-let decimal = false;
 
 function darkenOnClick(button, color) {
     button.addEventListener('mousedown', () => {
@@ -45,8 +44,9 @@ function evaluate() {
     else if (operator.id === 'subtract') result = firstNum - secondNum;
     else if (operator.id === 'multiply') result = firstNum * secondNum;
     else if (operator.id === 'divide') result = firstNum / secondNum;
+    console.log(result);
 
-    firstNum = toString(result);
+    firstNum = result.toString();
     operator = undefined;
     secondNum = '';
 }
@@ -77,19 +77,53 @@ numbers.forEach(number => {
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (!secondNum) {
-            if (!operator) operator = button;
+            if (firstNum[firstNum.length-1] !== '.') {
+                if (!operator) operator = button;
+            }
         }
         else {
-            evaluate();
-            operator = button;
+            if (secondNum[secondNum.length-1] !== '.') {
+                evaluate();
+                operator = button;
+            }
         }
         updateOutput();
     })
 })
 
 equalsButton.addEventListener('click', () => {
-    if (secondNum) {
+    if (secondNum && secondNum[secondNum.length-1] !== '.') {
         evaluate();
         updateOutput();
     }
+})
+
+decimalButton.addEventListener('click', () => {
+    if(!operator){
+        if (!firstNum.includes('.')){
+            if (firstNum === result.toString()) {
+                result = undefined;
+                firstNum = '0.';
+
+            }
+            else if (firstNum) firstNum += '.';
+            else firstNum = '0.'
+        }
+    }
+
+    else {
+        if (!secondNum.includes('.')) {
+            if (secondNum) secondNum += '.'
+            else secondNum += '0.'
+        }
+    }
+    updateOutput()
+})
+
+clearButton.addEventListener('click', () => {
+    firstNum = '';
+    secondNum = '';
+    operator = undefined;
+    result = undefined;
+    updateOutput()
 })
