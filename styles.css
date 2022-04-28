@@ -1,0 +1,65 @@
+.digits {
+    display : grid;
+    grid-template-columns : repeat(3, 80px);
+    width :fit-content;
+    grid-row: span 3;
+    grid-column: span 3;
+    gap: 6px;
+}
+
+button {
+    min-height: 80px;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+#num0 {
+    grid-column: span 2;
+}
+
+#equals {
+    grid-row: span 2;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(5, 80px);
+    gap: 6px;
+}
+
+.output {
+    height: 80px;
+    border: 1px solid black;
+    margin: 12px 0;
+    background-color: white;
+    border-radius: 2px;
+}
+
+.calculator {
+    border: 1px solid black;
+    padding: 24px;
+    width : fit-content;
+    border-radius: 8px;
+    background-color: rgb(70, 70, 70);
+}
+
+body {
+    height: 100vh;
+    margin:0;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#clear, #delete {
+    background-color: rgb(219, 32, 32);
+}
+
+.number, #decimal {
+    background-color: rgb(230, 230, 230);
+}
+
+.operator, #equals {
+    background-color: rgb(231, 179, 76);
+}
