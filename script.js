@@ -35,6 +35,7 @@ function updateOutput() {
     outputSpace.textContent = firstNum;
     if (operator) outputSpace.textContent += ' ' + operator.textContent + ' ';
     if (secondNum) outputSpace.textContent += secondNum;
+    if (outputSpace.textContent.length > 20) outputSpace.textContent = 'ERROR';
 }
 
 function evaluate() {
@@ -44,9 +45,9 @@ function evaluate() {
     else if (operator.id === 'subtract') result = firstNum - secondNum;
     else if (operator.id === 'multiply') result = firstNum * secondNum;
     else if (operator.id === 'divide') result = firstNum / secondNum;
-    console.log(result);
 
-    firstNum = result.toString();
+    result = result.toString()
+    firstNum = result;
     operator = undefined;
     secondNum = '';
 }
@@ -101,7 +102,7 @@ equalsButton.addEventListener('click', () => {
 decimalButton.addEventListener('click', () => {
     if(!operator){
         if (!firstNum.includes('.')){
-            if (firstNum === result.toString()) {
+            if (firstNum === result) {
                 result = undefined;
                 firstNum = '0.';
 
@@ -126,4 +127,14 @@ clearButton.addEventListener('click', () => {
     operator = undefined;
     result = undefined;
     updateOutput()
+})
+
+deleteButton.addEventListener('click', () => {
+    if (!operator) {
+        if (firstNum.length === 1) firstNum = '';
+        else firstNum = firstNum.slice(0, firstNum.length - 1);
+    }
+    else if (!secondNum) operator = undefined;
+    else secondNum  = secondNum.slice(0, secondNum.length-1);
+    updateOutput();
 })
