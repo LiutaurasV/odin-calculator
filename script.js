@@ -35,7 +35,7 @@ function updateOutput() {
     outputSpace.textContent = firstNum;
     if (operator) outputSpace.textContent += ' ' + operator.textContent + ' ';
     if (secondNum) outputSpace.textContent += secondNum;
-    if (outputSpace.textContent.length > 20) outputSpace.textContent = 'ERROR';
+    if (outputSpace.textContent.length > 21) outputSpace.textContent = 'ERROR';
 }
 
 function evaluate() {
@@ -61,6 +61,15 @@ darkenOnClick(deleteButton, "rgb(135, 18, 18)");
 
 numbers.forEach(number => {
     number.addEventListener('click', () => {
+        if (number.id === "num0"){
+            if (!operator) {
+                if (firstNum === '0') return;
+            }
+            else {
+                if(secondNum === '0') return;
+            }
+        }
+
         if (!operator){
             if (firstNum === result) {
                 firstNum = '';
@@ -77,12 +86,12 @@ numbers.forEach(number => {
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        if (!secondNum) {
+        if (!secondNum && firstNum) {
             if (firstNum[firstNum.length-1] !== '.') {
                 if (!operator) operator = button;
             }
         }
-        else {
+        else if (secondNum) {
             if (secondNum[secondNum.length-1] !== '.') {
                 evaluate();
                 operator = button;
