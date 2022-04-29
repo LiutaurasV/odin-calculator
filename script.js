@@ -21,13 +21,23 @@ let secondNum = '';
 let result;
 let operator;
 
-function darkenOnClick(button, color) {
+function darkenOnClick(button, color, key) {
+    console.log(key)
     button.addEventListener('mousedown', () => {
         button.style.backgroundColor = color;
     })
 
     button.addEventListener('mouseup', () => {
         button.style.backgroundColor = '';
+    })
+
+    //Keyboard support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === key) button.style.backgroundColor = color;
+    })
+
+    document.addEventListener('keyup', (e) => {
+        if (e.key === key) button.style.backgroundColor = '';
     })
 }
 
@@ -63,12 +73,17 @@ function clear() {
     result = undefined;
 }
 
-numbers.forEach(button => darkenOnClick(button, "rgb(170, 170, 170"));
-operatorButtons.forEach(button => darkenOnClick(button, "rgb(174, 128, 36)"))
-darkenOnClick(equalsButton, "rgb(174, 128, 36)");
-darkenOnClick(decimalButton, "rgb(170, 170, 170)");
-darkenOnClick(clearButton, "rgb(135, 18, 18)");
-darkenOnClick(deleteButton, "rgb(135, 18, 18)");
+numbers.forEach(button => darkenOnClick(button, "rgb(170, 170, 170", button.id[button.id.length-1]));
+operatorButtons.forEach(button => {
+    if (button.id === 'multiply') {
+        darkenOnClick(button, "rgb(174, 128, 36)", '*')
+    }
+    else darkenOnClick(button, "rgb(174, 128, 36)", button.textContent);
+})
+darkenOnClick(equalsButton, "rgb(174, 128, 36)", 'Enter');
+darkenOnClick(decimalButton, "rgb(170, 170, 170)", '.');
+darkenOnClick(clearButton, "rgb(135, 18, 18)", 'c');
+darkenOnClick(deleteButton, "rgb(135, 18, 18)", 'Backspace');
 
 numbers.forEach(number => {
     number.addEventListener('click', () => {
@@ -154,4 +169,38 @@ deleteButton.addEventListener('click', () => {
     else if (!secondNum) operator = undefined;
     else secondNum  = secondNum.slice(0, secondNum.length-1);
     updateOutput();
+})
+
+//Keyboar support
+document.addEventListener('keydown', (e) => {
+    if ("0123456789".includes(e.key)) {
+        numbers.forEach(num => {
+            if (num.id === "num" + e.key) {
+                num.click();
+                return;
+            }
+        })
+    }
+
+    else if (e.key === '*') {
+        operatorButtons.forEach(op => {
+            if (op.id === 'multiply') {
+                op.click();
+                return;
+            }
+        })
+    }
+
+    else if ('/-+'.includes(e.key)) {
+        operatorButtons.forEach(op => {
+            if (op.textContent === e.key) {
+                op.click();
+                return;
+            }
+        })
+    }
+    else if (e.key === '.') decimalButton.click();
+    else if (e.key === 'Backspace') deleteButton.click();
+    else if (e.key.toLowerCase() === 'c') clearButton.click();
+    else if (e.key === 'Enter') equalsButton.click();
 })
