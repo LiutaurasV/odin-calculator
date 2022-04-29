@@ -36,6 +36,10 @@ function updateOutput() {
     if (operator) outputSpace.textContent += ' ' + operator.textContent + ' ';
     if (secondNum) outputSpace.textContent += secondNum;
     if (outputSpace.textContent.length > 21) outputSpace.textContent = 'ERROR';
+    if (firstNum === 'Infinity'){
+        outputSpace.textContent = 'ERROR';
+        clear();
+    }
 }
 
 function evaluate() {
@@ -50,6 +54,13 @@ function evaluate() {
     firstNum = result;
     operator = undefined;
     secondNum = '';
+}
+
+function clear() {
+    firstNum = '';
+    secondNum = '';
+    operator = undefined;
+    result = undefined;
 }
 
 numbers.forEach(button => darkenOnClick(button, "rgb(170, 170, 170"));
@@ -131,12 +142,9 @@ decimalButton.addEventListener('click', () => {
 })
 
 clearButton.addEventListener('click', () => {
-    firstNum = '';
-    secondNum = '';
-    operator = undefined;
-    result = undefined;
-    updateOutput()
-})
+    clear();
+    updateOutput();
+});
 
 deleteButton.addEventListener('click', () => {
     if (!operator) {
